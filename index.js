@@ -37,6 +37,11 @@ function operate(left, right, sign) {
 }
 
 function updateDisplay(num) {
+    // prevent more than 16 digits at a time
+    if(displayNum.length > 15){
+        return;
+    }
+
     // starts a new math operation if equals button was pressed last
     if(sign === '='){
         sign = '';
@@ -60,12 +65,12 @@ function updateDisplay(num) {
 function updateOperator(newSign) {
     if(sign === ''){
         sign = newSign;
-        leftNum = parseInt(displayNum);
+        leftNum = parseFloat(displayNum);
     }else if(sign === '=' && newSign === '='){
         // this allows equals button to repeat last math operation when pressed again
         display.textContent = leftNum = operate(leftNum, rightNum, lastOperation);
     }else{
-        rightNum = parseInt(displayNum);
+        rightNum = parseFloat(displayNum);
         display.textContent = leftNum = operate(leftNum, rightNum, sign);
         lastOperation = sign;
         sign = newSign;
@@ -86,5 +91,25 @@ function backSpace() {
     }else{
         displayNum = displayNum.slice(0, -1);
     }
+    display.textContent = displayNum;
+}
+
+function addDecimal() {
+    if(!displayNum.includes('.')){
+        displayNum += '.'
+        display.textContent = displayNum;
+    }
+}
+
+function toggleNegative() {
+    if(displayNum === '0'){
+        return;
+    }
+    if(displayNum.charAt(0) === '-'){
+        displayNum = displayNum.slice(1, displayNum.length);
+    }else{
+        displayNum = '-' + displayNum;
+    }
+
     display.textContent = displayNum;
 }
