@@ -44,6 +44,7 @@ function updateDisplay(num) {
 
     // prevent a long stream of 0's at the start
     if(displayNum === '0' && num === 0){
+        display.textContent = '0';
         return;
     }
 
