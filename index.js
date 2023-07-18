@@ -62,3 +62,19 @@ function updateOperator(newSign) {
     }
     displayNum = '0';
 }
+
+function clearDisplay() {
+    leftNum = rightNum = undefined;
+    sign = '';
+    displayNum = '0';
+    display.textContent = displayNum;
+}
+
+function backUp() {
+    if(displayNum.length === 1){
+        displayNum = '0';
+    }else{
+        displayNum = displayNum.slice(0, -1);
+    }
+    display.textContent = displayNum;
+}
