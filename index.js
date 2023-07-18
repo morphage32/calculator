@@ -37,6 +37,11 @@ function operate(left, right, sign) {
 }
 
 function updateDisplay(num) {
+    // starts a new math operation if equals button was pressed last
+    if(sign === '='){
+        sign = '';
+    }
+
     // prevent a long stream of 0's at the start
     if(displayNum === '0' && num === 0){
         return;
@@ -55,9 +60,13 @@ function updateOperator(newSign) {
     if(sign === ''){
         sign = newSign;
         leftNum = parseInt(displayNum);
+    }else if(sign === '=' && newSign === '='){
+        // this allows equals button to repeat last math operation when pressed again
+        display.textContent = leftNum = operate(leftNum, rightNum, lastOperation);
     }else{
         rightNum = parseInt(displayNum);
         display.textContent = leftNum = operate(leftNum, rightNum, sign);
+        lastOperation = sign;
         sign = newSign;
     }
     displayNum = '0';
@@ -70,7 +79,7 @@ function clearDisplay() {
     display.textContent = displayNum;
 }
 
-function backUp() {
+function backSpace() {
     if(displayNum.length === 1){
         displayNum = '0';
     }else{
