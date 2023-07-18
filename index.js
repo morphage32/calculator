@@ -1,12 +1,13 @@
 const display = document.querySelector('#display');
 
 let displayNum = '0';
+let lastOperation;
 let leftNum;
 let rightNum;
 let sign = '';
 
 function add(left, right) {
-    return +(left) + +(right);
+    return left + right;
 }
 
 function subtract(left, right) {
@@ -28,8 +29,10 @@ function operate(left, right, sign) {
         return subtract(left, right);
     }else if(sign === "*"){
         return multiply(left, right);
-    }else{
+    }else if(sign === "/"){
         return divide(left, right);
+    }else{
+        return left;
     }
 }
 
@@ -46,4 +49,16 @@ function updateDisplay(num) {
 
     displayNum += num;
     display.textContent = displayNum;
+}
+
+function updateOperator(newSign) {
+    if(sign === ''){
+        sign = newSign;
+        leftNum = parseInt(displayNum);
+    }else{
+        rightNum = parseInt(displayNum);
+        display.textContent = leftNum = operate(leftNum, rightNum, sign);
+        sign = newSign;
+    }
+    displayNum = '0';
 }
