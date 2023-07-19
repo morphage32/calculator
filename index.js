@@ -71,10 +71,26 @@ function updateOperator(newSign) {
         display.textContent = leftNum = operate(leftNum, rightNum, lastOperation);
     }else{
         rightNum = parseFloat(displayNum);
+        // check for divide by zero
+        if(sign === '/' && rightNum === 0){
+            errorOut(0);
+            return;
+        }
         display.textContent = leftNum = operate(leftNum, rightNum, sign);
         lastOperation = sign;
         sign = newSign;
     }
+
+    // limits calculations to 16 digits
+    if(display.textContent.length > 16){
+        leftNum = leftNum.toPrecision(16);
+        display.textContent = leftNum;
+    }
+
+    if(display.textContent.includes('e')){
+        errorOut(1);
+    }
+
     displayNum = '0';
 }
 
@@ -112,4 +128,16 @@ function toggleNegative() {
     }
 
     display.textContent = displayNum;
+}
+
+function errorOut(code) {
+    leftNum = rightNum = undefined;
+    sign = '';
+    displayNum = '0';
+
+    if(code === 0){
+        display.textContent = 'N0.';
+    }else{
+        display.textContent = 'ERROR';
+    }
 }
